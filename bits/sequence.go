@@ -1,4 +1,4 @@
-// Package bits if for operating bit sequences with 2-bit as a tail.
+// Package bits if for operating bit sequences with 2-bit as a tile.
 package bits
 
 import (
@@ -13,7 +13,7 @@ const (
 	log2WordSize = uint(6)    // for laster arith.
 )
 
-// wordsNeeded computes how many words needed according to the length of tails.
+// wordsNeeded computes how many words needed according to the length of tiles.
 func wordsNeeded(i uint32, size int) uint64 {
 	if i == 0 {
 		return 1
@@ -30,14 +30,14 @@ const (
 	DT_UNKNOWN
 )
 
-// Sequence represents bit sequence that use 2 bits as a tail.
+// Sequence represents bit sequence that use 2 bits as a tile.
 type Sequence struct {
 	length   uint32
 	words    []uint64
 	combines []uint64
 }
 
-// New initializes a new 2-bit tail sequence.
+// New initializes a new 2-bit tile sequence.
 func New(length uint32) *Sequence {
 	return &Sequence{
 		length:   length,
@@ -46,7 +46,7 @@ func New(length uint32) *Sequence {
 	}
 }
 
-// Set sets tail value and combination of given index according to DiffType.
+// Set sets tile value and combination of given index according to DiffType.
 //
 // 	Default - 00
 // 	Simple  - 01
@@ -92,7 +92,7 @@ func (s *Sequence) Set(i uint64, dt DiffType, num1, num2 int) *Sequence {
 	return s
 }
 
-// Get returns tail value by given index.
+// Get returns tile value by given index.
 func (s *Sequence) Get(i uint64) DiffType {
 	i *= 2
 	index := i >> log2WordSize
@@ -110,7 +110,7 @@ func (s *Sequence) Get(i uint64) DiffType {
 	return DT_DEFAULT
 }
 
-// GetCombine returns index in CombinationTable by given index of tail.
+// GetCombine returns index in CombinationTable by given index of tile.
 func (s *Sequence) GetCombine(i uint64) int {
 	i *= 4
 	index := i >> log2WordSize
@@ -137,7 +137,7 @@ func reverse(str string) string {
 	return string(byt2)
 }
 
-// DumpWordsAsBits converts tail values to string format(bits form):
+// DumpWordsAsBits converts tile values to string format(bits form):
 func (s *Sequence) DumpWordsAsBits() string {
 	buf := bytes.NewBufferString("")
 	l := wordsNeeded(s.length, 2)
@@ -161,7 +161,7 @@ func (s *Sequence) DumpCombinesAsBits() string {
 	return string(buf.Bytes())
 }
 
-// DumpWordsAsType converts tail values to string format(DiffType form):
+// DumpWordsAsType converts tile values to string format(DiffType form):
 //
 // 	0 - Default
 // 	1 - Simple
