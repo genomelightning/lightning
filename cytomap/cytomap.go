@@ -112,7 +112,7 @@ func (cm *CytoMap) parseTile(i int) (n int64, err error) {
 		// Set for last tile data.
 		if len(chr) > 0 {
 			if !cm.checkRule(chr, start, end, buf.Bytes()) {
-				log.Println("No rule found:", chr, start, end)
+				log.Println("No rule found(%04d):", i, chr, start, end)
 			}
 			buf.Reset()
 			n++
@@ -135,7 +135,7 @@ func (cm *CytoMap) parseTile(i int) (n int64, err error) {
 	// Set for last tile data.
 	if len(chr) > 0 {
 		if !cm.checkRule(chr, start, end, buf.Bytes()) {
-			log.Println("No rule found:", chr, start, end)
+			log.Println("No rule found(%04d):", i, chr, start, end)
 		}
 		buf.Reset()
 		n++
@@ -147,7 +147,7 @@ func (cm *CytoMap) parseTile(i int) (n int64, err error) {
 // PasreTiles parses tile set files by rules.
 func (cm *CytoMap) PasreTiles() (n int64, err error) {
 	var m int64
-	for i := 0; i < 1002; i++ {
+	for i := 0; i < 1001; i++ {
 		if m, err = cm.parseTile(i); err != nil {
 			if strings.Contains(err.Error(), "no such file or directory") {
 				return n, nil
