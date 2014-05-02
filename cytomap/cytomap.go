@@ -47,7 +47,7 @@ func ParseCytoMap(hgNum int, fileName string) (*CytoMap, error) {
 	// Parsing lines.
 	for snr.Scan() {
 		infos := strings.Split(snr.Text(), "\t")
-		if len(infos) != 5 {
+		if len(infos) != 5 || len(infos[3]) == 0 {
 			break
 		}
 
@@ -112,7 +112,7 @@ func (cm *CytoMap) parseTile(i int) (n int64, err error) {
 		// Set for last tile data.
 		if len(chr) > 0 {
 			if !cm.checkRule(chr, start, end, buf.Bytes()) {
-				log.Println("No rule found(%04d):", i, chr, start, end)
+				log.Printf("No rule match(%04d): %s %d-%d\n", i, chr, start, end)
 			}
 			buf.Reset()
 			n++
@@ -135,7 +135,7 @@ func (cm *CytoMap) parseTile(i int) (n int64, err error) {
 	// Set for last tile data.
 	if len(chr) > 0 {
 		if !cm.checkRule(chr, start, end, buf.Bytes()) {
-			log.Println("No rule found(%04d):", i, chr, start, end)
+			log.Printf("No rule match(%04d): %s %d-%d\n", i, chr, start, end)
 		}
 		buf.Reset()
 		n++
